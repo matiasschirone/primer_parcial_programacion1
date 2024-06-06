@@ -3,13 +3,27 @@ import random
 
 import json
 
-def get_path_actual(nombre_archivo):
+def get_path_actual(nombre_archivo: str)-> str:
+    """Devuelve la ruta completa del archivo proporcionado.
+
+
+    Args:
+        nombre_archivo (str): El nombre del archivo
+
+    Returns:
+        str: La ruta completa del archivo.
+    """
     import os
     directorio_actual = os.path.dirname(__file__)
     return os.path.join(directorio_actual, nombre_archivo)
 
 
-def cargar_csv():
+def cargar_csv()-> list:
+    """Carga los datos de un archivo CSV de películas y los devuelve como una lista de diccionarios.
+
+    Returns:
+        list: Lista de diccionarios que representan películas.
+    """
     with open(get_path_actual("movies.csv"), "r", encoding="utf-8")as archivo:
         lista_peliculas = []
         encabezado = archivo.readline().strip("\n").split(",")
@@ -29,6 +43,11 @@ def cargar_csv():
             
 
 def imprimir_lista(lista_peliculas: list)->None:
+    """Imprime una lista de películas.
+
+    Args:
+        lista_peliculas (list): Lista de diccionarios de las peliculas.
+    """
     tam = len(lista_peliculas)
     print("       ****Listado de peliculas****")
     print(f"{'ID':<5} {'Titulo':<30} {'Genero':<15} {'Rating':<6}")
@@ -37,7 +56,7 @@ def imprimir_lista(lista_peliculas: list)->None:
         mostrar_pelicula_item(lista_peliculas[i])
     print()
     
-def mostrar_pelicula_item(pelicula: dict):
+def mostrar_pelicula_item(pelicula: dict)->None:
     print(f"{pelicula['id']:<5} {pelicula['titulo']:<30} {pelicula['genero']:<15} {pelicula['rating']:<6}")
 
 def mapear_peliculas(mapeadora, lista: list)->list:
@@ -57,14 +76,14 @@ def mapear_peliculas(mapeadora, lista: list)->list:
         
     return lista_retorno
 
-def rating_random(pelicula):
-    """Asigna un rating aleatorio entre 1.0 y 10.0 con 1 decimal a una película sin usar round.
+def rating_random(pelicula: dict)-> dict:
+    """Asigna un rating aleatorio entre 1.0 y 10.0 con un decimal a una película.
 
     Args:
-        pelicula (_type_): _description_
+        pelicula (dict): Diccionario que representa una película.
 
     Returns:
-        _type_: _description_
+        dict: Diccionario de la película con el rating asignado.
     """
     parte_entera = random.randint(1, 10)
     parte_decimal = random.randint(0, 9)
@@ -73,13 +92,13 @@ def rating_random(pelicula):
     return pelicula
   
 def asignar_genero(pelicula: dict)->dict:
-    """Asigna un género aleatorio a una película según un número aleatorio entre 1 y 4.
+    """Asigna un género aleatorio a una película.
 
     Args:
-        pelicula (dict): Diccionario que representa una película con al menos la clave 'genero'.
+        pelicula (dict): Diccionario que representa una película.
 
     Returns:
-        dict: El diccionario de la película con el género asignado.
+        dict: Diccionario de la película con el género asignado.
     """
     generos = {1: "drama", 2: "comedia", 3: "acción", 4: "terror"}
     genero_random = random.randint(1, 4)
@@ -137,8 +156,8 @@ def swap_lista(lista: list, i: int, j: int)->None:
     lista[i] =lista[j]
     lista[j] =aux
      
-def ordenar_peliculas_genero_rating(peliculas: dict)->dict:
-    """Ordena las películas por género y luego por rating descendente.
+def ordenar_peliculas_genero_rating(peliculas: dict)-> dict:
+    """Ordena las películas por género y luego por rating .
 
     Args:
         peliculas (list): Lista de diccionarios que representan películas.
@@ -156,7 +175,7 @@ def ordenar_peliculas_genero_rating(peliculas: dict)->dict:
                 swap_lista(peliculas, i, j)
     return peliculas
 
-def pelicula_mejor_rating(peliculas):
+def pelicula_mejor_rating(peliculas: list)-> tuple:
     """Muestra el título y el rating de la película con el rating más alto.
 
     Args:
@@ -175,7 +194,7 @@ def pelicula_mejor_rating(peliculas):
     
     return mejor_pelicula["titulo"], mejor_pelicula["rating"]
 
-def guardar_peliculas_en_json(lista_peliculas,):
+def guardar_peliculas_en_json(lista_peliculas: list)-> None:
     """Guarda el listado de películas en un archivo JSON.
 
     Args:

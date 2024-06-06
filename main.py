@@ -54,8 +54,10 @@ while True:
             if csv_cargado and rating_asignado:
                 mejor_titulo, mejor_rating = pelicula_mejor_rating(lista_peliculas)
                 print(f"La mejor pelicula es '{mejor_titulo}' con un rating de {mejor_rating}.")
-            else:
+            elif not csv_cargado:
                 print("Debes cargar el CSV primero.")
+            else:
+                print("Debes asignar un rating primero.")
         case 8:
             if csv_cargado:
                 guardar_peliculas_en_json(lista_peliculas)
